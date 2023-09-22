@@ -9,10 +9,9 @@
 int main(int argc, char **argv)
 {
 	stack_t *head = NULL;
-	static char *content[1024] = NULL;
+	static char *content[1024] = {NULL}, list[100];
 	FILE *fd;
-	int n = 0;
-	size_t len = 0;
+	int n = 0, i = 0;
 
 	if (argc != 2)
 	{
@@ -20,15 +19,21 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	fd = fopen(argv[1], "r");
-	if (fd = NULL)
+	if (fd == NULL)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	while (getline(&(content[n]), &len, fd) != -1)
-		n++;
+	while (fgets(list, sizeof(list), fd) != NULL)
+		i++;
+	rewind(fd);
+	for (n = 0; n < i; n++)
+	{
+		fgets(list, sizeof(list), fd);
+		strcpy(content[n], list);
+	}
 	handle(content, head);
-	free(content);
+	free_com(content);
 	fclose(fd);
 	return (0);
 }
@@ -38,12 +43,10 @@ int main(int argc, char **argv)
  * @str: contents of file
  * @head: head of list
  */
-void handle(char *str, stack_t *head)
+void handle(char *str[], stack_t *head)
 {
 	int ln, n, i, lp;
-
-	instruction_t st[] = 
-	{
+	instruction_t st[] = {
 		{"pall", pall},
 		{"add", add},
 		{"pop", pop},
@@ -81,6 +84,7 @@ void handle(char *str, stack_t *head)
 			}
 		}
 	}
+	free_stack(head);
 }
 
 /**
@@ -102,7 +106,7 @@ int _strcmp(char *p, char *s)
 		{
 			p++;
 			s++;
-			if (*p == '\0' && (*s == ' ' || *s == "\n" || *s == '\0'))
+			if (*p == '\0' && (*s == ' ' || *s == '\n' || *s == '\0'))
 				return (1);
 		}
 	}

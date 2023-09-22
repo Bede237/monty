@@ -47,7 +47,7 @@ int getval(char *list, int ln)
  * @list: list to check
  * @ln: line num
  *
- * Return 1
+ * Return: 1
  */
 int check_num(char *list, int ln)
 {
@@ -98,7 +98,7 @@ int newline(char *pt)
  * free_com - free com
  * @p: pointer
  */
-void free_com(char *p)
+void free_com(char *p[])
 {
 	int i = 0;
 
@@ -107,7 +107,6 @@ void free_com(char *p)
 		free(p[i]);
 		i++;
 	}
-	free(p);
 }
 /**
  * free_stack - free list
@@ -115,11 +114,11 @@ void free_com(char *p)
  */
 void free_stack(stack_t *head)
 {
-	stack_t *temp = head;
+	stack_t *temp;
 
 	if (head == NULL)
 		return;
-	while (head != NULL)
+	while (head)
 	{
 		temp = head;
 		head = head->next;

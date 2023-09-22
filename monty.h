@@ -40,4 +40,20 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+void pint(stack_t **stack, unsigned int ln);
+void add(stack_t **stack, unsigned int ln);
+int list_len(stack_t *stack);
+void pall(stack_t **stack, unsigned int ln);
+void push(stack_t **stack, unsigned int ln, int n);
+void pop(stack_t **stack, unsigned int ln);
+void swap(stack_t **stack, unsigned int ln);
+void nop(stack_t **stack, unsigned int ln);
+void handle(char *str[], stack_t *head);
+int _strcmp(char *p, char *s);
+int getval(char *list, int ln);
+int check_num(char *list, int ln);
+int newline(char *pt);
+void free_com(char *p[]);
+void free_stack(stack_t *head);
+
 #endif
